@@ -4,10 +4,10 @@ uart_baudrate = 115200
 MAV_system_id = 1
 MAV_component_id = 0x54
 MAX_DISTANCE_SENSOR_enable = True
-lens_mm = 2.8 
-lens_to_camera_mm = 22 
-sensor_w_mm = 3.984 
-sensor_h_mm = 2.952 
+lens_mm = 2.8
+lens_to_camera_mm = 22
+sensor_w_mm = 3.984
+sensor_h_mm = 2.952
 
 
 
@@ -40,7 +40,7 @@ uart = pyb.UART(3, uart_baudrate, timeout_char = 1000)
 
 packet_sequence = 0
 
-def checksum(data, extra): 
+def checksum(data, extra):
     output = 0xFFFF
     for i in range(len(data)):
         tmp = data[i] ^ (output & 0xFF)
@@ -116,6 +116,7 @@ def send_landing_target_packet(tag, w, h, tag_size):
     packet_sequence += 1
     uart.write(temp)
 
+##############################################################################
 # Main Loop
 
 clock = time.clock()
