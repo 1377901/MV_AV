@@ -132,6 +132,6 @@ while(True):
         send_landing_target_packet(tags[0], img.width(), img.height(), valid_tag_ids[tags[0].id()])
         img.draw_rectangle(tags[0].rect())
         img.draw_cross(tags[0].cx(), tags[0].cy())
-        print("Distance %f m - FPS %f" % (z_to_mm(tags[0].z_translation(), valid_tag_ids[tags[0].id()]) /1000, clock.fps()))
-    else:
-        print("FPS %f" % clock.fps())
+        print("Distance %f m" % (z_to_mm(tags[0].z_translation(), valid_tag_ids[tags[0].id()]) /1000))
+    # else:
+    #     print("FPS %f" % clock.fps())
