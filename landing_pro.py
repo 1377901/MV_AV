@@ -1,30 +1,15 @@
-# MAVLink AprilTags Landing Target Script.
-#
-# This script sends out AprilTag detections using the MAVLink protocol to
-# an ArduPilot/PixHawk controller for precision landing using your OpenMV Cam.
-#
-# P4 = TXD
 
 import image, math, pyb, sensor, struct, time
-
-# Parameters #################################################################
-
 uart_baudrate = 115200
-
 MAV_system_id = 1
 MAV_component_id = 0x54
 MAX_DISTANCE_SENSOR_enable = True
+lens_mm = 2.8 
+lens_to_camera_mm = 22 
+sensor_w_mm = 3.984 
+sensor_h_mm = 2.952 
 
-lens_mm = 2.8 # Standard Lens.
-lens_to_camera_mm = 22 # Standard Lens.
-sensor_w_mm = 3.984 # For OV7725 sensor - see datasheet.
-sensor_h_mm = 2.952 # For OV7725 sensor - see datasheet.
 
-# Only tags with a tag ID in the dictionary below will be accepted by this
-# code. You may add as many tag IDs to the below dictionary as you want...
-
-# For each tag ID you need to provide then length of the black tag border
-# in mm. Any side of the tag black border square will work.
 
 valid_tag_ids = {
                   0 : 100, # 8.5" x 11" tag black border size in mm
@@ -33,8 +18,6 @@ valid_tag_ids = {
                 }
 
 ##############################################################################
-
-# Camera Setup
 
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
@@ -53,15 +36,11 @@ v_fov = 2 * math.atan((sensor_h_mm / 2) / lens_mm)
 def z_to_mm(z_translation, tag_size): # z_translation is in decimeters...
     return (((z_translation * 100) * tag_size) / 165) - lens_to_camera_mm
 
-# Link Setup
-
 uart = pyb.UART(3, uart_baudrate, timeout_char = 1000)
-
-# Helper Stuff
 
 packet_sequence = 0
 
-def checksum(data, extra): # https://github.com/mavlink/c_library_v1/blob/master/checksum.h
+def checksum(data, extra): 
     output = 0xFFFF
     for i in range(len(data)):
         tmp = data[i] ^ (output & 0xFF)
@@ -81,8 +60,6 @@ MAV_DISTANCE_SENSOR_orientation = 25 # MAV_SENSOR_ROTATION_PITCH_270
 MAV_DISTANCE_SENSOR_covariance = 0 # unused
 MAV_DISTANCE_SENSOR_extra_crc = 85
 
-# http://mavlink.org/messages/common#DISTANCE_SENSOR
-# https://github.com/mavlink/c_library_v1/blob/master/common/mavlink_msg_distance_sensor.h
 def send_distance_sensor_packet(tag, tag_size):
     global packet_sequence
     temp = struct.pack("<lhhhbbbb",
@@ -114,8 +91,6 @@ MAV_LANDING_TARGET_max_distance = 10000/100 # in meters
 MAV_LANDING_TARGET_frame = 8 # MAV_FRAME_BODY_NED
 MAV_LANDING_TARGET_extra_crc = 200
 
-# http://mavlink.org/messages/common#LANDING_TARGET
-# https://github.com/mavlink/c_library_v1/blob/master/common/mavlink_msg_landing_target.h
 def send_landing_target_packet(tag, w, h, tag_size):
     global packet_sequence
     temp = struct.pack("<qfffffbb",
