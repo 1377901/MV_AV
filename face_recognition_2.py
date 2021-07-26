@@ -9,40 +9,49 @@ sensor.set_windowing((92,112))
 sensor.skip_frames(10) # Let new settings take affect.
 sensor.skip_frames(time = 5000) #等待5s
 
-SUB = "s2"
-NUM_SUBJECTS = 5  #图像库中不同人数，一共5人
-NUM_SUBJECTS_IMGS = 10 #每人有10张样本图片
+uart_baudrate = 115200
+uart = pyb.UART(3, uart_baudrate, timeout_char = 1000)
+
+SUB = "original"  #目标图像所在目录
 
 # 拍摄当前人脸。
 # img = sensor.snapshot()
+# img = sensor.snapshot().gamma_corr(contrast=1.5)
 
-img = image.Image("orl_faces/%s/1.pgm"%(SUB)).mask_ellipse()
+# 自定义帧发送函数
+def send_frame(cx, cy):
+     uart.writechar(0xA5)
+     uart.writechar(0x5A)
+     uart.writechar(cx)
+     uart.writechar(cy)
+     uart.writechar(cx + cy)
+
+
+img = image.Image("%s/1.pgm"%(SUB)).mask_ellipse()
 d0 = img.find_lbp((0, 0, img.width(), img.height()))  #d0为当前人脸的lbp特征
 img = None
-
-pmin = 999999
-num=0
-
-def min(pmin, a, s):
-    global num
-    if a<pmin:
-        pmin=a
-        num=s
-    return pmin
+face_cascade = image.HaarCascade("frontalface", stages=25)
 
 
 print("")
-for s in range(1, NUM_SUBJECTS+1):
+clock = time.clock()
+while(True):
+    clock.tick()
+    # img = sensor.snapshot()
+    img = sensor.snapshot().gamma_corr(contrast=1.5) #拍摄当前图像
     dist = 0
-    for i in range(2, NUM_SUBJECTS_IMGS+1):
-        img = image.Image("orl_faces/s%d/%d.pgm"%(s, i)).mask_ellipse()  #读取图片
-        # img = image.Image("singtown/s%d/%d.pgm"%(s, i))  #读取图片
-        d1 = img.find_lbp((0, 0, img.width(), img.height()))  #d1为第s文件夹中的第i张图片的lbp特征
-        dist += image.match_descriptor(d0, d1) #计算d0 d1即样本图像与被检测人脸的特征差异度。
-    print("Average dist for subject %d: %d"%(s, dist/NUM_SUBJECTS_IMGS))
-    pmin = min(pmin, dist/NUM_SUBJECTS_IMGS, s)#特征差异度越小，被检测人脸与此样本更相似更匹配。
-    print(pmin)
-print(num) # num为当前最匹配的人的编号。
+    d1 = img.find_lbp((0, 0, img.width(), img.height()))  
+    dist = image.match_descriptor(d0, d1) #计算d0 d1即样本图像与被检测人脸的特征差异度。
+    if (dist < 100): #识别到目标
+        objects = img.find_features(face_cascade, threshold=0.95, scale_factor=1.25)
+        # Draw objects
+        for r in objects:
+            img.draw_rectangle(r, color = (255, 0, 0))
+            img.draw_cross(r.cx(), r.cy(), color = (0, 255, 0))
+            send_frame(r.cx(), r.cy())
+            print("Object %d: %d"%(r.cx(), r.cy()))
+        
+    print(clock.fps())
 
 
 

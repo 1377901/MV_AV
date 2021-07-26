@@ -1,13 +1,9 @@
-# Snapshot Example
-#
-# Note: You will need an SD card to run this example.
-#
-# You can use your OpenMV Cam to save image files.
 
 import sensor, image, pyb
 
 RED_LED_PIN = 1
 BLUE_LED_PIN = 3
+SUB = "original"  #目标图像所在目录
 
 sensor.reset() # Initialize the camera sensor.
 sensor.set_pixformat(sensor.GRAYSCALE) # or sensor.GRAYSCALE
@@ -16,9 +12,7 @@ sensor.set_windowing((92,112))
 sensor.skip_frames(10) # Let new settings take affect.
 sensor.skip_frames(time = 2000)
 
-num = 1 #设置被拍摄者序号，第一个人的图片保存到s1文件夹，第二个人的图片保存到s2文件夹，以此类推。每次更换拍摄者时，修改num值。
-
-n = 20 #设置每个人拍摄图片数量。
+n = 10 #设置每个人拍摄图片数量。
 
 #连续拍摄n张照片，每间隔3s拍摄一次。
 while(n):
@@ -32,7 +26,7 @@ while(n):
 
     #保存截取到的图片到SD卡
     print(n)
-    sensor.snapshot().save("singtown/s%s/%s.pgm" % (num, n) ) # or "example.bmp" (or others)
+    sensor.snapshot().save("%s/%s.pgm" % (SUB, n) )
 
     n -= 1
 
