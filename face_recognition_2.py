@@ -36,16 +36,16 @@ while(True):
     dist = 0
     d1 = img.find_lbp((0, 0, img.width(), img.height()))
     dist = image.match_descriptor(d0, d1) #计算d0 d1即样本图像与被检测人脸的特征差异度。
-    # if (dist < 100): #识别到目标
-    objects = img.find_features(face_cascade, threshold=0.95, scale_factor=1.25)
-    # Draw objects
-    for r in objects:
-        temptang0 = img.draw_rectangle(r, color = (255, 0, 0))
-        temp_x = int(r[0] + r[2]/2)
-        temp_y = int(r[1] + r[3]/2)
-        img.draw_cross(temp_x, temp_y, color = (0, 255, 0),size=10)
-        send_frame(temp_x, temp_y)
-        print("Object x:%d: y:%d, The dis: %f"%(temp_x, temp_y,dist))
+    if (dist < 10000): #识别到目标
+        objects = img.find_features(face_cascade, threshold=0.95, scale_factor=1.25)
+        # Draw objects
+        for r in objects:
+            temptang0 = img.draw_rectangle(r, color = (255, 0, 0))
+            temp_x = int(r[0] + r[2]/2)
+            temp_y = int(r[1] + r[3]/2)
+            img.draw_cross(temp_x, temp_y, color = (0, 255, 0),size=10)
+            send_frame(temp_x, temp_y)
+            print("Object x:%d: y:%d, The dis: %f"%(temp_x, temp_y,dist))
 
     #print(clock.fps())
 
