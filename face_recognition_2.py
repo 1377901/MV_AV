@@ -42,20 +42,14 @@ while(True):
         temptang0 = img.draw_rectangle(r, color = (255, 0, 0))
         #print(temptang0) # 只有w h 没有x y
         #print(r) # x y w h
-        print(r[0],r[1],r[2],r[3])
-        print(type(r))
+        # print(r[0],r[1],r[2],r[3])
+        # print(type(r))
 
-
-        #img = sensor.snapshot().gamma_corr(contrast=1.5) #拍摄当前图像
-        #temptangs = img.find_rects()
-
-        #temp_x = temptang.x() + temptang.w()/2
-        #temp_y = temptang.y() + temptang.h()/2
-        ## temp_x = r.cx()
-        ## temp_y = r.cy()
-        #img.draw_cross(temp_x, temp_y, color = (0, 255, 0),size=10)
-        #send_frame(temp_x, temp_y)
-        #print("Object x:%d: y:%d, The dis: %f"%(temp_x, temp_y,dist))
+        temp_x = int(r[0] + r[2]/2)
+        temp_y = int(r[1] + r[3]/2)
+        img.draw_cross(temp_x, temp_y, color = (0, 255, 0),size=10)
+        send_frame(temp_x, temp_y)
+        print("Object x:%d: y:%d, The dis: %f"%(temp_x, temp_y,dist))
 
     #print(clock.fps())
 
