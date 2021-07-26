@@ -12,8 +12,9 @@ sensor.skip_frames(time = 2000)
 
 clock = time.clock()
 
-net = tf.load("trained.tflite", load_to_fb=True)
-labels = [l.rstrip('\n') for l in open("labels.txt")]
+net = tf.load("./nn/mobilenet_v1_1.0_224_quant.tflite", load_to_fb=True)
+# labels = [l.rstrip('\n') for l in open("labels.txt")]
+labels = ['Taget_person']
 
 while(True):
     clock.tick()

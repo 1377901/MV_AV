@@ -44,7 +44,7 @@ while(True):
             img.draw_rectangle(r, color = (255, 0, 0))
             img.draw_cross(r.cx(), r.cy(), color = (0, 255, 0))
             send_frame(r.cx(), r.cy())
-            print("Object %d: %d"%(r.cx(), r.cy()))
+            print("Object x:%d: y:%d, The dis: %f"%(r.cx(), r.cy(),dist))
         
     print(clock.fps())
 
