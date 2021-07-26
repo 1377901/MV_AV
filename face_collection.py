@@ -26,9 +26,10 @@ while(n):
 
     #保存截取到的图片到SD卡
     print(n)
-    sensor.snapshot().save("%s/%s.pgm" % (SUB, n) )
+    sensor.snapshot().save("./original/%s.pgm" % (n) )
 
     n -= 1
 
     pyb.LED(BLUE_LED_PIN).off()
     print("Done! Reset the camera to see the saved image.")
+    #sensor.reset()
