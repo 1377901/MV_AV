@@ -1,7 +1,8 @@
 import sensor, image, time,pyb
 
 sensor.reset()
-sensor.set_pixformat(sensor.RGB565)
+# sensor.set_pixformat(sensor.RGB565)
+sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time = 2000)
 
@@ -25,7 +26,7 @@ while(n):
     if faces:
         largest_face = max(faces, key = lambda f: f[2] * f[3])
         largest_face_timeout -= 1
-        
+
 
     if largest_face_timeout > 10:
         face_img = sensor.get_fb().crop(roi=largest_face)
@@ -37,7 +38,7 @@ while(n):
             pyb.LED(RED_LED_PIN).off()
             pyb.LED(BLUE_LED_PIN).on()
             largest_face_timeout = 50
-    
+
     pyb.LED(BLUE_LED_PIN).off()
     print("Done! Reset the camera to see the saved image.")
     print(clock.fps())
