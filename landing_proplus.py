@@ -26,8 +26,8 @@ sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time = 2000)
 
-x_res = 160 # QQVGA
-y_res = 120 # QQVGA
+x_res = 320 # QVGA
+y_res = 240 # QVGA
 f_x = (lens_mm / sensor_w_mm) * x_res
 f_y = (lens_mm / sensor_h_mm) * y_res
 c_x = x_res / 2
@@ -132,6 +132,6 @@ while(True):
         send_landing_target_packet(tags[0], img.width(), img.height(), valid_tag_ids[tags[0].id()])
         img.draw_rectangle(tags[0].rect())
         img.draw_cross(tags[0].cx(), tags[0].cy())
-        # print("Distance %f m" % (z_to_mm(tags[0].z_translation(), valid_tag_ids[tags[0].id()]) /1000))
+        print("Distance %f m" % (z_to_mm(tags[0].z_translation(), valid_tag_ids[tags[0].id()]) /1000))
     # else:
     #     print("FPS %f" % clock.fps())

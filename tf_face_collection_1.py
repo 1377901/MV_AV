@@ -1,8 +1,3 @@
-# Face Collection
-#
-# Use this script to gather face images for building a TensorFlow dataset. This script automatically
-# zooms in the largest face in the field of view which you can then save using the data set editor.
-
 import sensor, image, time,pyb
 
 sensor.reset()
@@ -45,17 +40,5 @@ while(n):
     
     pyb.LED(BLUE_LED_PIN).off()
     print("Done! Reset the camera to see the saved image.")
-    # sensor.reset()
     print(clock.fps())
 
-    
-
-    
-
-    #保存截取到的图片到SD卡
-    
-    # sensor.snapshot().save("./ original/%s.pgm" % (n) )
-
-    
-
-    

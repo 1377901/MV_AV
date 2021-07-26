@@ -1,5 +1,4 @@
 
-
 import sensor, time, image, pyb  
 
 sensor.reset() # Initialize the camera sensor.
@@ -13,10 +12,6 @@ uart_baudrate = 115200
 uart = pyb.UART(3, uart_baudrate, timeout_char = 1000)
 
 SUB = "original"  #目标图像所在目录
-
-# 拍摄当前人脸。
-# img = sensor.snapshot()
-# img = sensor.snapshot().gamma_corr(contrast=1.5)
 
 # 自定义帧发送函数
 def send_frame(cx, cy):
