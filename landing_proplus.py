@@ -26,8 +26,8 @@ sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time = 2000)
 
-x_res = 320 # QVGA
-y_res = 240 # QVGA
+x_res = 160 # QVGA
+y_res = 120 # QVGA
 f_x = (lens_mm / sensor_w_mm) * x_res
 f_y = (lens_mm / sensor_h_mm) * y_res
 c_x = x_res / 2
