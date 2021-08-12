@@ -4,12 +4,12 @@ uart_baudrate = 115200
 MAV_system_id = 1
 MAV_component_id = 0x54
 MAX_DISTANCE_SENSOR_enable = True
-lens_mm = 2.8
+lens_mm = 1.7
 lens_to_camera_mm = 22
-sensor_w_mm = 3.984
-sensor_h_mm = 2.952
+sensor_w_mm = 3.6736
+sensor_h_mm = 2.7384
 
-temp_data = 200
+temp_data = 100
 
 
 
@@ -26,8 +26,8 @@ sensor.set_pixformat(sensor.GRAYSCALE)
 sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time = 2000)
 
-x_res = 160 # QVGA
-y_res = 120 # QVGA
+x_res = 320 # QVGA
+y_res = 240 # QVGA
 f_x = (lens_mm / sensor_w_mm) * x_res
 f_y = (lens_mm / sensor_h_mm) * y_res
 c_x = x_res / 2

@@ -15,10 +15,10 @@ MAV_system_id = 1
 MAV_component_id = 0x54
 MAX_DISTANCE_SENSOR_enable = True
 
-lens_mm = 2.8 # Standard Lens.
+lens_mm = 1.7 # Standard Lens. 广角
 lens_to_camera_mm = 22 # Standard Lens.
-sensor_w_mm = 3.984 # For OV7725 sensor - see datasheet.
-sensor_h_mm = 2.952 # For OV7725 sensor - see datasheet.
+sensor_w_mm = 3.6736 # For OV5640 sensor - see datasheet.
+sensor_h_mm = 2.7384 # For OV5640 sensor - see datasheet.
 
 # Only tags with a tag ID in the dictionary below will be accepted by this
 # code. You may add as many tag IDs to the below dictionary as you want...
@@ -26,10 +26,11 @@ sensor_h_mm = 2.952 # For OV7725 sensor - see datasheet.
 # For each tag ID you need to provide then length of the black tag border
 # in mm. Any side of the tag black border square will work.
 
+temp_data= 100  ##待修改
 valid_tag_ids = {
-                  0 : 100, # 8.5" x 11" tag black border size in mm
-                  1 : 100, # 8.5" x 11" tag black border size in mm
-                  2 : 100, # 8.5" x 11" tag black border size in mm
+                  0 : temp_data, # 8.5" x 11" tag black border size in mm
+                  1 : temp_data, # 8.5" x 11" tag black border size in mm
+                  2 : temp_data, # 8.5" x 11" tag black border size in mm
                 }
 
 ##############################################################################
@@ -38,11 +39,11 @@ valid_tag_ids = {
 
 sensor.reset()
 sensor.set_pixformat(sensor.GRAYSCALE)
-sensor.set_framesize(sensor.QQVGA)
+sensor.set_framesize(sensor.QVGA)
 sensor.skip_frames(time = 2000)
 
-x_res = 160 # QQVGA
-y_res = 120 # QQVGA
+x_res = 160*2 # QVGA
+y_res = 120*2 # QVGA
 f_x = (lens_mm / sensor_w_mm) * x_res
 f_y = (lens_mm / sensor_h_mm) * y_res
 c_x = x_res / 2
