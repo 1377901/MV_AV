@@ -41,8 +41,8 @@ v_fov = 2 * math.atan((sensor_h_mm / 2) / lens_mm)
 
 ##功能函数
 clock = time.clock()
-tag_flag = 0  ##指定该点位的有效性
-loiter_time = 0 ##指定无人机悬停时间
+tag_flag = 0  ##指定该点位的有效性 0:表示无效 1：表示有效
+loiter_time = 0 ##指定无人机在TAG处悬停时间
 position_lat = None
 position_lon = None
 
