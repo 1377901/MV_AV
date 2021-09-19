@@ -1,23 +1,3 @@
-# TensorFlow Lite Mobilenet V1 Example
-#
-# Google's Mobilenet V1 detects 1000 classes of objects
-#
-# WARNING: Mobilenet is trained on ImageNet and isn't meant to classify anything
-# in the real world. It's just designed to score well on the ImageNet dataset.
-# This example just shows off running mobilenet on the OpenMV Cam. However, the
-# default model is not really usable for anything. You have to use transfer
-# learning to apply the model to a target problem by re-training the model.
-#
-# NOTE: This example only works on the OpenMV Cam H7 Pro (that has SDRAM) and better!
-# To get the models please see the CNN Network library in OpenMV IDE under
-# Tools -> Machine Vision. The labels are there too.
-# You should insert a microSD card into your camera and copy-paste the mobilenet_labels.txt
-# file and your chosen model into the root folder for ths script to work.
-#
-# In this example we slide the detector window over the image and get a list
-# of activations. Note that use a CNN with a sliding window is extremely compute
-# expensive so for an exhaustive search do not expect the CNN to be real-time.
-
 import sensor, image, time, os, tf
 
 sensor.reset()                         # Reset and initialize the sensor.
@@ -39,16 +19,6 @@ while(True):
 
     img = sensor.snapshot()
 
-    # net.classify() will run the network on an roi in the image (or on the whole image if the roi is not
-    # specified). A classification score output vector will be generated for each location. At each scale the
-    # detection window is moved around in the ROI using x_overlap (0-1) and y_overlap (0-1) as a guide.
-    # If you set the overlap to 0.5 then each detection window will overlap the previous one by 50%. Note
-    # the computational work load goes WAY up the more overlap. Finally, for multi-scale matching after
-    # sliding the network around in the x/y dimensions the detection window will shrink by scale_mul (0-1)
-    # down to min_scale (0-1). For example, if scale_mul is 0.5 the detection window will shrink by 50%.
-    # Note that at a lower scale there's even more area to search if x_overlap and y_overlap are small...
-
-    # default settings just do one detection... change them to search the image...
     for obj in tf.classify(mobilenet, img, min_scale=1.0, scale_mul=0.5, x_overlap=0.0, y_overlap=0.0):
         print("**********\nTop 5 Detections at [x=%d,y=%d,w=%d,h=%d]" % obj.rect())
         img.draw_rectangle(obj.rect())
