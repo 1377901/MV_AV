@@ -50,15 +50,19 @@ while(True):
         img.draw_cross(tags[0].cx(), tags[0].cy(), color = (0, 255, 0), size=10)
         if tags[0].id() == 0: ##TAG 0 代表降落点--禁止修改
             tag_flag = 1
+            print("tag.id :",tags[0].id())
             send_frame(tags[0].cx(), tags[0].cy(), tag_flag)
         if tags[0].id() == 1: ##假设TAG 1 代表香蕉
             tag_flag = 1
+            print("tag.id :",tags[0].id())
             send_frame(tags[0].cx(), tags[0].cy(), tag_flag)
         if tags[0].id() == 2: ##假设TAG 2 代表苹果
-            tag_flag = 0
+            tag_flag = 1
+            print("tag.id :",tags[0].id())
             send_frame(tags[0].cx(), tags[0].cy(), tag_flag)
         if tags[0].id() == 3: ##假设TAG 3 代表橘子
-            tag_flag = 0
+            tag_flag = 1
+            print("tag.id :",tags[0].id())
             send_frame(tags[0].cx(), tags[0].cy(), tag_flag)
 
     img = 0
