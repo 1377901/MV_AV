@@ -8,26 +8,27 @@ sensor.set_auto_gain(False) # must be turned off for color tracking
 sensor.set_auto_whitebal(False) # must be turned off for color tracking
 clock = time.clock()
 
+# thresholds = [(0, 0, -1, 2, -1, 1)]
+black = [(0, 0, -1, 2, -1, 1)]
 
 while(True):
     clock.tick()
     img = sensor.snapshot().lens_corr(1.8)
-    for c in img.find_circles(threshold = 3500, x_margin = 10, y_margin = 10, r_margin = 10,r_min = 2, r_max = 100, r_step = 2):
-        area = (c.x()-c.r(), c.y()-c.r(), 2*c.r(), 2*c.r())
-        #area为识别到的圆的区域，即圆的外接矩形框
-        statistics = img.get_statistics(roi=area)#像素颜色统计
-        #print(statistics)
-        #(0,100,0,120,0,120)是红色的阈值，所以当区域内的众数（也就是最多的颜色），范围在这个阈值内，就说明是红色的圆。
-        #l_mode()，a_mode()，b_mode()是L通道，A通道，B通道的众数。
-        if 0<statistics.l_mode()<100 and 0<statistics.a_mode()<127 and 0<statistics.b_mode()<127:#if the circle is red
-            img.draw_circle(c.x(), c.y(), c.r(), color = (255, 0, 0))#识别到的红色圆形用红色的圆框出来
-        else:
-            img.draw_rectangle(area, color = (255, 255, 255))
-            #将非红色的圆用白色的矩形框出来
-
-    for r in img.find_rects(threshold = 10000):
+    for r in img.find_rects(threshold = 20000):
+    # for r in img.find_rects(thresholds):
         img.draw_rectangle(r.rect(), color = (255, 0, 0))
-        for p in r.corners(): img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
-        print(r)
+        area = r.rect()
+        size = r.magnitude() #矩形大小
+        # print(size)
+        statistics = img.get_statistics(roi=area)#像素颜色统计
+        if -1<statistics.l_mode()<1 and -1<statistics.a_mode()<1 and -1<statistics.b_mode()<1:
+            for p in r.corners(): img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
+
+        # print(r)
+    black_blobs = img.find_blobs(black)
+    for b in black_blobs:
+        print(b.cx())
+        img.draw_rectangle(r.rect(), color = (0, 0, 255))
+
 
     #print("FPS %f" % clock.fps())
