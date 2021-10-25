@@ -12,16 +12,24 @@ import time, sensor, image
 from image import SEARCH_EX, SEARCH_DS
 
 # Reset sensor
-sensor.reset()
+#sensor.reset()
 
-# Set sensor settings
-sensor.set_contrast(1)
-sensor.set_gainceiling(16)
-# Max resolution for template matching with SEARCH_EX is QQVGA
+## Set sensor settings
+#sensor.set_contrast(1)
+#sensor.set_gainceiling(16)
+## Max resolution for template matching with SEARCH_EX is QQVGA
+#sensor.set_framesize(sensor.QVGA)
+## You can set windowing to reduce the search image.
+##sensor.set_windowing(((640-80)//2, (480-60)//2, 80, 60))
+#sensor.set_pixformat(sensor.GRAYSCALE)
+
+sensor.reset()
+sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
-# You can set windowing to reduce the search image.
-#sensor.set_windowing(((640-80)//2, (480-60)//2, 80, 60))
-sensor.set_pixformat(sensor.GRAYSCALE)
+sensor.skip_frames(time = 2000)
+sensor.set_auto_gain(False) # must be turned off for color tracking
+sensor.set_auto_whitebal(False) # must be turned off for color tracking
+clock = time.clock()
 
 # Load template.
 # Template should be a small (eg. 32x32 pixels) grayscale image.

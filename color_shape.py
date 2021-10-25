@@ -11,6 +11,7 @@ clock = time.clock()
 # thresholds = [(0, 0, -1, 2, -1, 1)]
 black = [(0, 0, -1, 2, -1, 1)]
 white = [(80, 100, -1, 100, -1, 100)]
+shre = [(41, 100, -1, 11, -32, 85)]
 
 while(True):
     #time.sleep(0.5)
@@ -22,10 +23,11 @@ while(True):
         area = r.rect()
         #print(r.w(),r.h())
         size = r.magnitude() #矩形大小
-        if(20000 < size < 50000):
+        if(15000 < size < 20000):
             img.draw_rectangle(r.rect(), color = (255, 0, 0))
             print(r.w(),r.h())
-        #print(size)
+            #for p in r.corners(): img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
+        if(size > 20000):
             for p in r.corners(): img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
 
         statistics = img.get_statistics(roi=area)#像素颜色统计
@@ -34,11 +36,13 @@ while(True):
 
         # print(r)
     #black_blobs = img.find_blobs(white)
-    ##black_blobs = img.find_blobs(10000)
-    #for b in black_blobs:
-        #print(b.cx())
-        #img.draw_rectangle(b.rect(), color = (0, 0, 255))
-        #print(b.w(),b.h())
+    pixels_threshold = 20000
+    black_blobs = img.find_blobs(shre,pixels_threshold)
+    for b in black_blobs:
+        if 50000 > b.area() > 500:
+            #print(b.cx())
+            img.draw_rectangle(b.rect(), color = (0, 0, 255))
+            print(b.w(),b.h())
 
 
     #print("FPS %f" % clock.fps())
