@@ -36,7 +36,7 @@ while(True):
 
         temp_cx = 0
         temp_cy = 0
-        if(size > 20000):
+        if(size > 10000):
             for p in r.corners():
                 img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
                 temp_cx = temp_cx + p[0]
