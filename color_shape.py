@@ -19,18 +19,24 @@ sensor.set_auto_gain(False) # must be turned off for color tracking
 sensor.set_auto_whitebal(False) # must be turned off for color tracking
 clock = time.clock()
 
+threshold2 = (32, 83, -17, 25, -29, 57)
+
 while(True):
     #time.sleep(0.5)
     clock.tick()
     img = sensor.snapshot().lens_corr(1.8)
-    for r in img.find_rects(threshold = 10000):
+    for r in img.find_rects(threshold = 5000):
         size = r.magnitude() #矩形大小
-        if(10000 < size < 15000):
-            img.draw_rectangle(r.rect(), color = (255, 0, 0))
+        #print(size)
+        #if(11000 < size < 12500):
+            #img.draw_rectangle(r.rect(), color = (255, 0, 0))
             #print(r.w(),r.h())
+            #print(size)
+
+
         temp_cx = 0
         temp_cy = 0
-        if(size > 15000):
+        if(size > 20000):
             for p in r.corners():
                 img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
                 temp_cx = temp_cx + p[0]
