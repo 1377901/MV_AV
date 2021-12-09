@@ -36,6 +36,7 @@ while(True):
         temp_cy = 0
         if(30000 > size > 10000):
             img.draw_rectangle(blob.rect())
+            img.draw_cross(blob.cx(), blob.cy())
             for p in r.corners():
                 #img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
                 temp_cx = temp_cx + p[0]
@@ -43,8 +44,11 @@ while(True):
             if (temp_cx > 0):
                 tx = (int)(temp_cx / 4)
                 ty = (int)(temp_cy / 4)
-                send_frame(tx, ty, 1)
-                print(tx,ty)
+                # send_frame(tx, ty, 1)
+                # print(tx,ty)
+            if(blob.cx() > 0):
+                send_frame(blob.cx(), blob.cy(), 1)
+                print(blob.cx(),blob.cy()) 
 
 
 
