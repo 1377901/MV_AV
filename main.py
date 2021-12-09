@@ -32,19 +32,12 @@ while(True):
 
     for r in img.find_rects(threshold = 10000):
         size = r.magnitude() #矩形大小
-        temp_cx = 0
-        temp_cy = 0
         if(30000 > size > 10000):
             img.draw_rectangle(blob.rect())
-            for p in r.corners():
-                #img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
-                temp_cx = temp_cx + p[0]
-                temp_cy = temp_cy + p[1]
-            if (temp_cx > 0):
-                tx = (int)(temp_cx / 4)
-                ty = (int)(temp_cy / 4)
-                send_frame(tx, ty, 1)
-                print(tx,ty)
+            img.draw_cross(blob.cx(), blob.cy())
+            if(blob.cx() > 0):
+                send_frame(blob.cx(), blob.cy(), 1)
+                print(blob.cx(),blob.cy()) 
 
 
 
