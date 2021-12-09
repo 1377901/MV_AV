@@ -19,31 +19,28 @@ sensor.set_auto_gain(False) # must be turned off for color tracking
 sensor.set_auto_whitebal(False) # must be turned off for color tracking
 clock = time.clock()
 
-threshold2 = [(79, 100, -128, 127, -128, 127)]
+#threshold2 = [(79, 100, -128, 127, -128, 127)]
+threshold2 = [(89, 100, -128, 127, -128, 127)]
 threshold_index = 0
 
 while(True):
     #time.sleep(0.5)
     clock.tick()
     img = sensor.snapshot().lens_corr(1.8)
-    for r in img.find_rects(threshold = 5000):
+    for blob in img.find_blobs([threshold2[threshold_index]], pixels_threshold=100, area_threshold=100, merge=True):
+        #img.draw_rectangle(blob.rect())
+        # img.draw_cross(blob.cx(), blob.cy())
+        # img.draw_keypoints([(blob.cx(), blob.cy(), int(math.degrees(blob.rotation())))], size=20)
+        pass
+
+    for r in img.find_rects(threshold = 10000):
         size = r.magnitude() #矩形大小
         temp_cx = 0
         temp_cy = 0
-        if(size > 10000):
-            for blob in img.find_blobs([threshold2[threshold_index]], pixels_threshold=200, area_threshold=200, merge=True):
-                # if blob.elongation() > 0.5:
-                #     img.draw_edges(blob.min_corners(), color=(255,0,0))
-                    # img.draw_line(blob.major_axis_line(), color=(0,255,0))
-                    # img.draw_line(blob.minor_axis_line(), color=(0,0,255))
-                size1 = blob.magnitude() #矩形大小
-                if(size1 > 10000):
-                    img.draw_rectangle(blob.rect())
-                    img.draw_cross(blob.cx(), blob.cy())
-                    img.draw_keypoints([(blob.cx(), blob.cy(), int(math.degrees(blob.rotation())))], size=20)
-
+        if(30000 > size > 10000):
+            img.draw_rectangle(blob.rect())
             for p in r.corners():
-                img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
+                # img.draw_circle(p[0], p[1], 5, color = (0, 255, 0))
                 temp_cx = temp_cx + p[0]
                 temp_cy = temp_cy + p[1]
             if (temp_cx > 0):
