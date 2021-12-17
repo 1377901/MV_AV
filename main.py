@@ -20,24 +20,28 @@ sensor.set_auto_whitebal(False) # must be turned off for color tracking
 clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
-threshold2 = [(89, 100, -128, 127, -128, 127)]
+#threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
+threshold2 = [(26, 100, -5, 10, -9, 23)]
 threshold_index = 0
+blob_t = 0
 
 while(True):
     #time.sleep(0.5)
     clock.tick()
-    img = sensor.snapshot().lens_corr(1.8)
+    #img = sensor.snapshot().lens_corr(1.8)
+    img = sensor.snapshot().lens_corr(0.5)
     for blob in img.find_blobs([threshold2[threshold_index]], pixels_threshold=100, area_threshold=100, merge=True):
+        blob_t = 1
         pass
 
     for r in img.find_rects(threshold = 10000):
         size = r.magnitude() #矩形大小
-        if(30000 > size > 10000):
+        if(30000 > size > 10000)and(blob_t == 1):
             img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
+            img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
             if(blob.cx() > 0):
                 send_frame(blob.cx(), blob.cy(), 1)
-                print(blob.cx(),blob.cy()) 
+                print(blob.cx(),blob.cy())
 
 
 

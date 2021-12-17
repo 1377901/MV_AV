@@ -34,10 +34,10 @@ while(True):
         size = r.magnitude() #矩形大小
         if(30000 > size > 10000):
             img.draw_rectangle(blob.rect())
-            img.draw_cross(blob.cx(), blob.cy())
+            img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
             if(blob.cx() > 0):
                 send_frame(blob.cx(), blob.cy(), 1)
-                print(blob.cx(),blob.cy()) 
+                print(blob.cx(),blob.cy())
 
 
 
