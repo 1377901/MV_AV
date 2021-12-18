@@ -14,14 +14,11 @@ def send_frame(cx, cy, flag):
 sensor.reset()
 sensor.set_pixformat(sensor.RGB565)
 sensor.set_framesize(sensor.QVGA)
-sensor.skip_frames(time = 2000)
-#sensor.set_auto_gain(False) # must be turned off for color tracking
-#sensor.set_auto_whitebal(False) # must be turned off for color tracking
-clock = time.clock()
-
 sensor.set_auto_gain(True)
 sensor.set_auto_whitebal(True) #
 #sensor.set_pixformat(sensor.GRAYSCALE)
+sensor.skip_frames(time = 2000)
+clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
