@@ -17,12 +17,12 @@ sensor.set_framesize(sensor.QVGA)
 sensor.set_auto_gain(True)
 sensor.set_auto_whitebal(True) #
 #sensor.set_pixformat(sensor.GRAYSCALE)
-sensor.skip_frames(time = 2000)
+sensor.skip_frames(time = 200)
 clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(98, 100, -128, 127, -127, 127)]
+threshold2 = [(84, 100, -128, 127, -127, 127)]
 threshold_index = 0
 blob_t = 0
 
