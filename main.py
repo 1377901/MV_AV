@@ -29,9 +29,9 @@ blob_t = 0
 while(True):
     #time.sleep(0.5)
     clock.tick()
-    img = sensor.snapshot().lens_corr(1.8)
+    # img = sensor.snapshot().lens_corr(1.8)
     #img = sensor.snapshot().lens_corr(0.5)
-    #img = sensor.snapshot()
+    img = sensor.snapshot()
     for blob in img.find_blobs([threshold2[threshold_index]], pixels_threshold=100, area_threshold=100, merge=True):
         blob_t = 1
         pass
