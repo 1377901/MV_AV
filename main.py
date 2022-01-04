@@ -22,14 +22,14 @@ clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(84, 100, -128, 127, -127, 127)]
+threshold2 = [(80, 100, -128, 127, -127, 127)]
 threshold_index = 0
 blob_t = 0
 
 while(True):
     #time.sleep(0.5)
     clock.tick()
-    # img = sensor.snapshot().lens_corr(1.8)
+    #img = sensor.snapshot().lens_corr(1.8)
     #img = sensor.snapshot().lens_corr(0.5)
     img = sensor.snapshot()
     for blob in img.find_blobs([threshold2[threshold_index]], pixels_threshold=100, area_threshold=100, merge=True):
