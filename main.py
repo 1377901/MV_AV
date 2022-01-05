@@ -17,12 +17,12 @@ sensor.set_framesize(sensor.QVGA)
 sensor.set_auto_gain(True)
 sensor.set_auto_whitebal(True) #
 #sensor.set_pixformat(sensor.GRAYSCALE)
-sensor.skip_frames(time = 200)
+sensor.skip_frames(time = 90)
 clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(80, 100, -128, 127, -127, 127)]
+threshold2 = [(93, 100, -128, 127, -127, 127)]
 threshold_index = 0
 blob_t = 0
 
@@ -36,10 +36,10 @@ while(True):
         blob_t = 1
         pass
 
-    for r in img.find_rects(threshold = 10000):
+    for r in img.find_rects(threshold = 5000):
         size = r.magnitude() #矩形大小
 
-        if(50000 > size > 10000)and(blob_t == 1):
+        if(500000 > size > 5000)and(blob_t == 1):
             img.draw_rectangle(blob.rect())
             img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
             if(blob.cx() > 0):
