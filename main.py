@@ -44,7 +44,11 @@ while(True):
             img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
             if(blob.cx() > 0):
                 send_frame(blob.cx(), blob.cy(), 1)
-                print(blob.cx(),blob.cy())
+                # print(blob.cx(),blob.cy())
+                deltax = blob.cx() - 160
+                deltay = blob.cy() - 120
+                dis = math.sqrt(deltax*deltax + deltay*deltay)
+                print(blob.cx(),blob.cy(),dis)
 
 
 
