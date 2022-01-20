@@ -22,38 +22,51 @@ clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(63, 100, -128, 127, -127, 127)]
+threshold2 = [(59, 100, -128, 127, -127, 127)]
 threshold_index = 0
 
+
 while(True):
-    #time.sleep(0.5)
+    blob_flag = 0
+    rect_flag = 0
     clock.tick()
-    #img = sensor.snapshot().lens_corr(1.8)
-    #img = sensor.snapshot().lens_corr(0.5)
     img = sensor.snapshot()
-    blobs = img.find_blobs([threshold2[threshold_index]], pixels_threshold=1000, area_threshold=1000, merge=True)
+    blobs = img.find_blobs([threshold2[threshold_index]], pixels_threshold=500, area_threshold=500, merge=True)
+    temp_data = img.find_rects(threshold = 100)
     blob_count = 0
     blob_area = 0
     blob_area1 = 0
+
+    rect_count = 0
+    rect_area = 0
+    rect_area1 = 0
+
     for blob in blobs:
+        blob_flag = 1
         blob_count = blob_count + 1
-        blob_area = blob_area + blob.w()*blob.y()
-    blob_area1 = blob_area / blob_count
+        blob_area = blob_area + blob.w()*blob.h()
+    if(blob_flag == 1):blob_area1 = blob_area / blob_count
 
-
-    temp_data = img.find_rects(threshold = 1000)
     for r in temp_data:
-        size = r.magnitude()
-        for blob in blobs:
-        #print(blobs[1])
-            if(blob_area1 >= size):
-                img.draw_rectangle(blob.rect(),color=(0,255,0))
-                img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
-                send_frame(blob.cx(), blob.cy(), 1)
-                deltax = blob.cx() - 160
-                deltay = blob.cy() - 120
-                dis = math.sqrt(deltax*deltax + deltay*deltay)
-                print(blob.cx(),blob.cy(),dis,size)
+        rect_flag = 1
+        rect_count = rect_count + 1
+        rect_area = rect_area + r.magnitude()
+    if(rect_flag == 1):rect_area1 = rect_area / rect_count
+
+    if(rect_flag == 1)and(blob_flag == 1):
+        print(blob_area1,rect_area1)
+
+    for blob in blobs:
+        blob_area = blob.w()*blob.h()
+        #if(rect_flag == 1)and(blob_flag == 1):
+        if(rect_flag == 1)and(blob_flag == 1)and(blob_area1* 1.8 >= blob_area >= blob_area1)and(blob_area1 < 10000): #and(blob_area <= rect_area1)
+            img.draw_rectangle(blob.rect(),color=(0,255,0))
+            img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
+            send_frame(blob.cx(), blob.cy(), 1)
+            deltax = blob.cx() - 160
+            deltay = blob.cy() - 120
+            dis = math.sqrt(deltax*deltax + deltay*deltay)
+            print(blob.cx(),blob.cy(),dis,blob_area)
 
 
 
