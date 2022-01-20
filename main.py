@@ -24,7 +24,6 @@ clock = time.clock()
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
 threshold2 = [(63, 100, -128, 127, -127, 127)]
 threshold_index = 0
-blob_t = 0
 
 while(True):
     #time.sleep(0.5)
@@ -34,27 +33,27 @@ while(True):
     img = sensor.snapshot()
     blobs = img.find_blobs([threshold2[threshold_index]], pixels_threshold=1000, area_threshold=1000, merge=True)
     blob_count = 0
+    blob_area = 0
+    blob_area1 = 0
     for blob in blobs:
-        blob_t = 1
         blob_count = blob_count + 1
-        #img.draw_rectangle(blob.rect(),color=(0,255,0))
-        pass
-    #print(blobs[1])
+        blob_area = blob_area + blob.w()*blob.y()
+    blob_area1 = blob_area / blob_count
+
 
     temp_data = img.find_rects(threshold = 1000)
     for r in temp_data:
-        size = r.magnitude() #矩形大小
-        #img.draw_rectangle(blob.rect(),color=(0,255,0))
-        #img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
-
-        if(10000 > size > 5000)and(blob_t == 1):
-            img.draw_rectangle(blob.rect(),color=(0,255,0))
-            img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
-            send_frame(blob.cx(), blob.cy(), 1)
-            deltax = blob.cx() - 160
-            deltay = blob.cy() - 120
-            dis = math.sqrt(deltax*deltax + deltay*deltay)
-            print(blob.cx(),blob.cy(),dis,size)
+        size = r.magnitude()
+        for blob in blobs:
+        #print(blobs[1])
+            if(blob_area1 >= size):
+                img.draw_rectangle(blob.rect(),color=(0,255,0))
+                img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
+                send_frame(blob.cx(), blob.cy(), 1)
+                deltax = blob.cx() - 160
+                deltay = blob.cy() - 120
+                dis = math.sqrt(deltax*deltax + deltay*deltay)
+                print(blob.cx(),blob.cy(),dis,size)
 
 
 
