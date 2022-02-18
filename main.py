@@ -22,7 +22,7 @@ clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(59, 100, -128, 127, -127, 127)]
+threshold2 = [(81, 100, -128, 127, -127, 127)]
 threshold_index = 0
 
 
@@ -57,16 +57,16 @@ while(True):
         print(blob_area1,rect_area1)
 
     for blob in blobs:
-        blob_area = blob.w()*blob.h()
+        blob_area_frame = blob.w()*blob.h()
         #if(rect_flag == 1)and(blob_flag == 1):
-        if(rect_flag == 1)and(blob_flag == 1)and(blob_area1* 1.8 >= blob_area >= blob_area1)and(blob_area1 < 10000): #and(blob_area <= rect_area1)
+        if(rect_flag == 1)and(blob_flag == 1)and(blob_area1* 1.8 >= blob_area_frame >= 0.5*blob_area1)and(blob_area1 < 20000): #and(blob_area <= rect_area1)
             img.draw_rectangle(blob.rect(),color=(0,255,0))
             img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
             send_frame(blob.cx(), blob.cy(), 1)
             deltax = blob.cx() - 160
             deltay = blob.cy() - 120
             dis = math.sqrt(deltax*deltax + deltay*deltay)
-            print(blob.cx(),blob.cy(),dis,blob_area)
+            print(blob.cx(),blob.cy(),dis,blob_area_frame)
 
 
 
