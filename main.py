@@ -22,7 +22,7 @@ clock = time.clock()
 
 #threshold2 = [(79, 100, -128, 127, -128, 127)]
 #threshold2 = [(89, 100, -128, 127, -128, 127)] #(89, 100, -17, 6, -9, 23)
-threshold2 = [(81, 100, -128, 127, -127, 127)]
+threshold2 = [(92, 100, -128, 127, -127, 127)]
 threshold_index = 0
 
 
@@ -53,12 +53,8 @@ while(True):
         rect_area = rect_area + r.magnitude()
     if(rect_flag == 1):rect_area1 = rect_area / rect_count
 
-    if(rect_flag == 1)and(blob_flag == 1):
-        print(blob_area1,rect_area1)
-
     for blob in blobs:
         blob_area_frame = blob.w()*blob.h()
-        #if(rect_flag == 1)and(blob_flag == 1):
         if(rect_flag == 1)and(blob_flag == 1)and(blob_area1* 1.8 >= blob_area_frame >= 0.5*blob_area1)and(blob_area1 < 20000): #and(blob_area <= rect_area1)
             img.draw_rectangle(blob.rect(),color=(0,255,0))
             img.draw_cross(blob.cx(), blob.cy(),color=(255,0,0))
