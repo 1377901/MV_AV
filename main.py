@@ -31,7 +31,7 @@ while(True):
     rect_flag = 0
     clock.tick()
     img = sensor.snapshot()
-    blobs = img.find_blobs([threshold2[threshold_index]], pixels_threshold=500, area_threshold=500, merge=True)
+    blobs = img.find_blobs([threshold2[threshold_index]], pixels_threshold=100, area_threshold=500, merge=True)
     temp_data = img.find_rects(threshold = 100)
     blob_count = 0
     blob_area = 0
